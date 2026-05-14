@@ -17,34 +17,9 @@ const PasswordGenerator = () => {
     const [passwordStrength, setPasswordStrength] = useState("Weak");
     const [passwordStrengthStyling, setPasswordStrengthStyling] = useState("inline bg-red-500 p-2");
 
-    /*const passwordGenerator = useCallback(() => {
-            //Variables controlling what characters are accessible
-            let pass = '';
-            let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            //Error handling and password strength indicators
-            ((numberAllowed === false && characterAllowed === false) ? setErrorVisibility("visible bg-red-500 mt-1 p-1 text-center") : setErrorVisibility("invisible bg-red-500 mt-1 p-1 text-center") );
-            if(numberAllowed === false && characterAllowed === false && password.length < 11){setPasswordStrength("Weak");setPasswordStrengthStyling("inline bg-red-500 p-2");}else{};
-            if(numberAllowed === true || characterAllowed === true || (password.length >= 11 && password.length < 16)){setPasswordStrength("Intermediate");setPasswordStrengthStyling("inline bg-orange-500 p-2");}else{};
-            if(numberAllowed === true && characterAllowed === true || password.length >= 16){setPasswordStrength("Strong");setPasswordStrengthStyling("inline bg-green-500 p-2");}else{};
-            /*if(errorVisibility === "visible bg-red-500 mt-1"){return}else{}*/
-            //Additional characters to be added to the pool if the user chooses them*/
-            /*if (numberAllowed) str += '0123456789';
-            if (characterAllowed) str += '!@#$%^&*()_+-=[]{}|;:,.<>?';
-            //The random character chooser function
-            for (let i = 1; i <= length; i++) {
-                let char = Math.floor(Math.random() * str.length + 1);
-                pass += str.charAt(char);
-            };
-            //Set the value for the input box and console log it
-            setPassword(pass);
-            console.log(pass);
-            //Console logs to monitor output password length
-            (pass.length >= 6 ? console.log("Password length is >= 6"):console.log("Password length is <= 6"));
-            (pass.length <= 20 ? console.log("Password length is <= 20"):console.log("Password length is >= 20"));
-            //Dependencies for the useCallback
-        }, [length, numberAllowed, characterAllowed, setPassword]);*/
+    //passwordGenerator has been moved to custom hook usePasswordGenerator. Here a useCallback is being applied to it.
     const callbackedPasswordGenerator = useCallback(()=>{usePasswordGenerator({numberAllowed,characterAllowed,setErrorVisibility,setPasswordStrength,setPasswordStrengthStyling,password,length,setPassword})},[length, numberAllowed, characterAllowed, setPassword]);
-    //useEffect ensures the passwordGenerator runs on any UI update
+    //useEffect applied to the callback ensures the usePasswordGenerator runs on any UI update
     useEffect(() => { callbackedPasswordGenerator(); }, [length, numberAllowed, characterAllowed, setPassword, setErrorVisibility, errorVisibility]);
 
     //Function for copying password to clipboard and selecting the text to enhance user experience
@@ -81,7 +56,7 @@ const PasswordGenerator = () => {
                     </label>
                 </div>
                 <button className="bg-blue-500 hover:bg-blue-700 font-bold rounded focus:outline-none focus:shadow-outline p-2 text-center cursor-pointer mt-2"
-                    type="button" onClick={usePasswordGenerator}>Generate Password</button><p className="inline ml-8">Password strength: </p><p className={passwordStrengthStyling}>{passwordStrength}</p>
+                    type="button" onClick={callbackedPasswordGenerator}>Generate Password</button><p className="inline ml-8">Password strength: </p><p className={passwordStrengthStyling}>{passwordStrength}</p>
                 {/*<button className="bg-blue-500 hover:bg-blue-700 font-bold rounded focus:outline-none focus:shadow-outline p-2 text-center cursor-pointer mt-2"
                         type="button" onClick={()=>setListenForButtonClick(!listenForButtonClick)}>Generate Password</button>*/}
                 <p className={errorVisibility}>Select at least one of either Numbers or Special Characters for a more secure password</p>
