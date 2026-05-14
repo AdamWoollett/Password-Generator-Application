@@ -6,7 +6,6 @@ const usePasswordGenerator = ({numberAllowed,characterAllowed,setErrorVisibility
             let pass = '';
             let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
             //Error handling and password strength indicators
-            console.log(setErrorVisibility);
             ((numberAllowed === false && characterAllowed === false) ? setErrorVisibility("visible bg-red-500 mt-1 p-1 text-center") : setErrorVisibility("invisible bg-red-500 mt-1 p-1 text-center"))
             if (numberAllowed === false && characterAllowed === false && password.length < 11) { setPasswordStrength("Weak"); setPasswordStrengthStyling("inline bg-red-500 p-2"); } else { };
             if (numberAllowed === true || characterAllowed === true || (password.length >= 11 && password.length < 16)) { setPasswordStrength("Intermediate"); setPasswordStrengthStyling("inline bg-orange-500 p-2"); } else { };
